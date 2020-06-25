@@ -1,5 +1,7 @@
 # vue-mms
 
+线上项目地址：http://120.77.176.152 (域名备案中)
+
 ## Project setup
 ```
 npm install
@@ -7,13 +9,10 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm run start
 ```
 
 ### Compiles and minifies for production
 ```
 npm run build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
