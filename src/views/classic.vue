@@ -43,18 +43,18 @@
 </template>
 
 <script>
-import Episode from "../components/episode/episode";
-import Like from "../components/like/like";
-import Movie from "../components/classic/movie/movie";
-import Music from "../components/classic/music/music";
-import Essay from '../components/classic/essay/essay';
-import Navi from "../components/navi/navi";
-import { Classic } from "../models/classic";
-import { LikeModel } from '../models/like';
-import { Token } from '../models/token';
-import { classicMixin } from '../config/classicMixin';
-const classicModel = new Classic();
-const likeModel = new LikeModel();
+import Episode from "../components/episode/episode"
+import Like from "../components/like/like"
+import Movie from "../components/classic/movie/movie"
+import Music from "../components/classic/music/music"
+import Essay from "../components/classic/essay/essay"
+import Navi from "../components/navi/navi"
+import { Classic } from "../models/classic"
+import { LikeModel } from "../models/like"
+import { Token } from "../models/token"
+import { classicMixin } from "../config/classicMixin"
+const classicModel = new Classic()
+const likeModel = new LikeModel()
 export default {
   name: "classic",
   mixins: [classicMixin],
@@ -73,14 +73,20 @@ export default {
       classic: null,
       first: false,
       latest: true,
-    };
+    }
   },
   created() {
-    classicModel.getLatest().then((res) => {
-      this.classic = res.data;
-      this.likeCount = res.data.fav_nums;
-      this.likeStatus = res.data.likeStatus;
-    });
+    classicModel
+      .getLatest()
+      .then((res) => {
+        this.classic = res.data
+        this.likeCount = res.data.fav_nums
+        this.likeStatus = res.data.likeStatus
+      })
+      .catch((err) => {
+        // 解决第一次打开拿不到数据的问题
+        window.location.reload()
+      })
   },
   computed: {
     iphone5Style() {
@@ -88,33 +94,33 @@ export default {
         ? {
             top: "54px",
           }
-        : {};
+        : {}
     },
   },
   methods: {
     onPrevious() {
-      this._updateClassic("prev");
+      this._updateClassic("prev")
     },
     onNext() {
-      this._updateClassic("next");
+      this._updateClassic("next")
     },
     _updateClassic(nextOrPrevious) {
-      const index = this.classic.index;
+      const index = this.classic.index
       classicModel.getClassic(index, nextOrPrevious).then((res) => {
-        this._getLikeStatus(res.id, res.type);
-        this.classic = res;
-        this.latest = classicModel.isLatest(res.index);
-        this.first = classicModel.isFirst(res.index);
-      });
+        this._getLikeStatus(res.id, res.type)
+        this.classic = res
+        this.latest = classicModel.isLatest(res.index)
+        this.first = classicModel.isFirst(res.index)
+      })
     },
     _getLikeStatus(artid, category) {
-      likeModel.getClassicLikeStatus(artid, category).then(res => {
-        this.likeCount = res.data.fav_nums;
-        this.likeStatus = res.data.likeStatus;
+      likeModel.getClassicLikeStatus(artid, category).then((res) => {
+        this.likeCount = res.data.fav_nums
+        this.likeStatus = res.data.likeStatus
       })
-    }
+    },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
